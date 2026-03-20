@@ -1,0 +1,111 @@
+{{!-- templates/importer.hbs --}}
+<form class="pdf-importer-form" autocomplete="off">
+
+  {{!-- ── File picker ── --}}
+  <div class="form-group">
+    <label for="pdf-file">
+      <i class="fa-solid fa-file-pdf"></i>
+      {{localize "PDFJOURNAL.FileLabel"}}
+    </label>
+    <input type="file" id="pdf-file" name="pdf-file" accept="application/pdf" {{#if busy}}disabled{{/if}} />
+  </div>
+
+  {{!-- ── Detection mode ── --}}
+  <div class="form-group">
+    <label for="detection-mode">{{localize "PDFJOURNAL.DetectionMode"}}</label>
+    <select id="detection-mode" name="detection-mode" {{#if busy}}disabled{{/if}}>
+      <option value="smart">{{localize "PDFJOURNAL.DetectionSmart"}}</option>
+      <option value="outline">{{localize "PDFJOURNAL.DetectionOutline"}}</option>
+    </select>
+    <p class="hint">{{localize "PDFJOURNAL.DetectionHint"}}</p>
+  </div>
+
+  {{!-- ── Outline depth (shown only when outline mode selected) ── --}}
+  <div class="form-group outline-depth-group">
+    <label for="depth">{{localize "PDFJOURNAL.DepthLabel"}}</label>
+    <select id="depth" name="depth" {{#if busy}}disabled{{/if}}>
+      <option value="0">{{localize "PDFJOURNAL.DepthTopLevel"}}</option>
+      <option value="1">{{localize "PDFJOURNAL.DepthLevel2"}}</option>
+      <option value="2">{{localize "PDFJOURNAL.DepthLevel3"}}</option>
+      <option value="-1">{{localize "PDFJOURNAL.DepthAll"}}</option>
+    </select>
+  </div>
+
+  {{!-- ── Preview button ── --}}
+  <div class="form-group form-group--center">
+    <button type="button" data-action="preview" {{#if busy}}disabled{{/if}}>
+      <i class="fa-solid fa-magnifying-glass"></i>
+      {{localize "PDFJOURNAL.PreviewButton"}}
+    </button>
+  </div>
+
+  {{!-- ── Progress bar ── --}}
+  <div class="pdf-progress" style="display:none;">
+    <div class="pdf-progress__track">
+      <div class="pdf-progress__fill"></div>
+    </div>
+    <span class="pdf-progress__label"></span>
+  </div>
+
+  {{!-- ── Section preview ── --}}
+  {{#if hasSections}}
+  <hr />
+  <p class="pdf-section-count">
+    <i class="fa-solid fa-list"></i>
+    {{localize "PDFJOURNAL.SectionsFound"}}: <strong>{{sectionCount}}</strong>
+  </p>
+
+  <ul class="pdf-section-list">
+    {{#each sections}}
+    <li class="pdf-section-item">
+      <i class="fa-regular fa-file-lines"></i>
+      {{this.title}}
+    </li>
+    {{/each}}
+  </ul>
+
+  <hr />
+
+  {{!-- ── Journal name ── --}}
+  <div class="form-group">
+    <label for="journal-name">
+      <i class="fa-solid fa-book"></i>
+      {{localize "PDFJOURNAL.JournalName"}}
+    </label>
+    <input type="text" id="journal-name" name="journal-name" placeholder="{{localize "PDFJOURNAL.JournalNamePlaceholder"}}" {{#if busy}}disabled{{/if}} />
+  </div>
+
+  {{!-- ── Folder ── --}}
+  {{#if folders.length}}
+  <div class="form-group">
+    <label for="folder">{{localize "PDFJOURNAL.FolderLabel"}}</label>
+    <select id="folder" name="folder" {{#if busy}}disabled{{/if}}>
+      <option value="">— {{localize "PDFJOURNAL.NoFolder"}} —</option>
+      {{#each folders}}
+      <option value="{{this.id}}">{{this.name}}</option>
+      {{/each}}
+    </select>
+  </div>
+  {{/if}}
+
+  {{!-- ── Import button ── --}}
+  <div class="form-group form-group--center">
+    <button type="button" data-action="import" class="pdf-import-submit" {{#if busy}}disabled{{/if}}>
+      <i class="fa-solid fa-file-import"></i>
+      {{localize "PDFJOURNAL.ImportButton"}}
+    </button>
+  </div>
+  {{/if}}
+
+</form>
+
+<script>
+  // Show/hide depth selector based on detection mode
+  const modeSelect = document.getElementById("detection-mode");
+  const depthGroup = document.querySelector(".outline-depth-group");
+  function updateDepthVisibility() {
+    depthGroup.style.display = modeSelect?.value === "outline" ? "" : "none";
+  }
+  modeSelect?.addEventListener("change", updateDepthVisibility);
+  updateDepthVisibility();
+</script>
