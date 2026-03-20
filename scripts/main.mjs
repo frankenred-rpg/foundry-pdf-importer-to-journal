@@ -7,16 +7,20 @@ import { PdfImporterApp } from "./pdf-importer-app.mjs";
 
 const MODULE_ID = "pdf-to-journal";
 
-Hooks.once("init", () => {
-  console.log(`${MODULE_ID} | Initialising PDF to Journal Importer`);
-});
-
-Hooks.once("ready", () => {
-  console.log(`${MODULE_ID} | Ready`);
-});
-
-Hooks.on("renderJournalDirectory", (_app, html, _data) => {
+function addImportButton() {
   if (!game.user.isGM) return;
+
+  // Avoid adding the button twice
+  if (document.querySelector(".pdf-import-btn")) return;
+
+  const target = document.querySelector("#journal .header-actions.action-buttons")
+              ?? document.querySelector("#journal .action-buttons")
+              ?? document.querySelector("#journal .directory-header");
+
+  if (!target) {
+    console.warn(`${MODULE_ID} | Could not find journal sidebar buttons`);
+    return;
+  }
 
   const btn = document.createElement("button");
   btn.type = "button";
@@ -24,12 +28,20 @@ Hooks.on("renderJournalDirectory", (_app, html, _data) => {
   btn.innerHTML = `<i class="fa-solid fa-file-pdf"></i> ${game.i18n.localize("PDFJOURNAL.ImportButton")}`;
   btn.addEventListener("click", () => new PdfImporterApp().render(true));
 
-  const root = html instanceof HTMLElement ? html : html[0];
+  target.prepend(btn);
+  console.log(`${MODULE_ID} | Import button added`);
+}
 
-  const target = root.querySelector(".header-actions.action-buttons")
-              ?? root.querySelector(".action-buttons")
-              ?? root.querySelector(".directory-header");
+Hooks.once("init", () => {
+  console.log(`${MODULE_ID} | Initialising PDF to Journal Importer`);
+});
 
-  if (target) target.prepend(btn);
-  else console.warn(`${MODULE_ID} | Could not find action-buttons in Journal sidebar`);
+Hooks.once("ready", () => {
+  console.log(`${MODULE_ID} | Ready`);
+  // Try adding on ready in case the sidebar is already rendered
+  setTimeout(addImportButton, 500);
+});
+
+Hooks.on("renderJournalDirectory", () => {
+  setTimeout(addImportButton, 100);
 });
