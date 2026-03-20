@@ -33,4 +33,3 @@ Hooks.on("renderJournalDirectory", (_app, html, _data) => {
   if (target) target.prepend(btn);
   else console.warn(`${MODULE_ID} | Could not find action-buttons in Journal sidebar`);
 });
-
