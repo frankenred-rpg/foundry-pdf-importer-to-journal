@@ -4,8 +4,9 @@
   "description": "Imports PDF files and converts them into Journal Entries, creating one page per section or chapter detected from the PDF outline or headings.",
   "version": "1.0.1",
   "compatibility": {
-    "minimum": "13",
-    "verified": "13"
+    "minimum": "11",
+    "verified": "13",
+    "maximum": "13"
   },
   "authors": [
     {
