@@ -1,0 +1,37 @@
+{
+  "id": "pdf-to-journal",
+  "title": "Foundry PDF Importer to Journal",
+  "description": "Imports PDF files and converts them into Journal Entries, creating one page per section or chapter detected from the PDF outline or headings.",
+  "version": "1.1.0",
+  "compatibility": {
+    "minimum": "11",
+    "verified": "13",
+    "maximum": "13"
+  },
+  "authors": [
+    {
+      "name": "Frankenred"
+    }
+  ],
+  "esmodules": [
+    "scripts/main.mjs"
+  ],
+  "styles": [
+    "styles/pdf-to-journal.css"
+  ],
+  "languages": [
+    {
+      "lang": "en",
+      "name": "English",
+      "path": "lang/en.json"
+    },
+    {
+      "lang": "es",
+      "name": "Español",
+      "path": "lang/es.json"
+    }
+  ],
+  "url": "https://github.com/frankenred-rpg/foundry-pdf-importer-to-journal",
+  "manifest": "https://raw.githubusercontent.com/frankenred-rpg/foundry-pdf-importer-to-journal/main/module.json",
+  "download": "https://github.com/frankenred-rpg/foundry-pdf-importer-to-journal/releases/latest/download/foundry-pdf-importer-to-journal.zip"
+}
