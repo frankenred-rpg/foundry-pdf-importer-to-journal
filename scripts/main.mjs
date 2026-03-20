@@ -9,18 +9,13 @@ const MODULE_ID = "pdf-to-journal";
 
 function addImportButton() {
   if (!game.user.isGM) return;
-
-  // Avoid adding the button twice
   if (document.querySelector(".pdf-import-btn")) return;
 
   const target = document.querySelector("#journal .header-actions.action-buttons")
               ?? document.querySelector("#journal .action-buttons")
               ?? document.querySelector("#journal .directory-header");
 
-  if (!target) {
-    console.warn(`${MODULE_ID} | Could not find journal sidebar buttons`);
-    return;
-  }
+  if (!target) return;
 
   const btn = document.createElement("button");
   btn.type = "button";
@@ -38,10 +33,21 @@ Hooks.once("init", () => {
 
 Hooks.once("ready", () => {
   console.log(`${MODULE_ID} | Ready`);
-  // Try adding on ready in case the sidebar is already rendered
-  setTimeout(addImportButton, 500);
-});
 
-Hooks.on("renderJournalDirectory", () => {
-  setTimeout(addImportButton, 100);
+  // Try immediately and with delays to cover different load timings
+  addImportButton();
+  setTimeout(addImportButton, 500);
+  setTimeout(addImportButton, 1500);
+
+  // Watch for sidebar re-renders via MutationObserver
+  const sidebar = document.querySelector("#sidebar");
+  if (sidebar) {
+    const observer = new MutationObserver(() => {
+      if (!document.querySelector(".pdf-import-btn")) {
+        addImportButton();
+      }
+    });
+    observer.observe(sidebar, { childList: true, subtree: true });
+    console.log(`${MODULE_ID} | MutationObserver watching sidebar`);
+  }
 });
