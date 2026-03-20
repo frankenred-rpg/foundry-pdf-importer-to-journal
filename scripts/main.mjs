@@ -7,10 +7,6 @@ import { PdfImporterApp } from "./pdf-importer-app.mjs";
 
 const MODULE_ID = "pdf-to-journal";
 
-/* ------------------------------------------------------------------ */
-/*  Hooks                                                               */
-/* ------------------------------------------------------------------ */
-
 Hooks.once("init", () => {
   console.log(`${MODULE_ID} | Initialising PDF to Journal Importer`);
 });
@@ -19,11 +15,7 @@ Hooks.once("ready", () => {
   console.log(`${MODULE_ID} | Ready`);
 });
 
-/**
- * Add an "Import PDF" button to the Journal sidebar header.
- */
 Hooks.on("renderJournalDirectory", (_app, html, _data) => {
-  // Only GMs can import
   if (!game.user.isGM) return;
 
   const btn = document.createElement("button");
@@ -32,8 +24,13 @@ Hooks.on("renderJournalDirectory", (_app, html, _data) => {
   btn.innerHTML = `<i class="fa-solid fa-file-pdf"></i> ${game.i18n.localize("PDFJOURNAL.ImportButton")}`;
   btn.addEventListener("click", () => new PdfImporterApp().render(true));
 
-  // Insert before the "Create Journal Entry" button
-  const header = html[0].querySelector(".directory-header .action-buttons") 
-               ?? html[0].querySelector(".directory-header");
-  if (header) header.prepend(btn);
+  const root = html instanceof HTMLElement ? html : html[0];
+
+  const target = root.querySelector(".header-actions.action-buttons")
+              ?? root.querySelector(".action-buttons")
+              ?? root.querySelector(".directory-header");
+
+  if (target) target.prepend(btn);
+  else console.warn(`${MODULE_ID} | Could not find action-buttons in Journal sidebar`);
 });
+
