@@ -30,7 +30,7 @@
       "path": "lang/es.json"
     }
   ],
-  "url": "https://github.com/Frankenred/foundry-pdf-importer-to-journal",
-  "manifest": "https://raw.githubusercontent.com/Frankenred/foundry-pdf-importer-to-journal/main/module.json",
-  "download": "https://github.com/Frankenred/foundry-pdf-importer-to-journal/releases/latest/download/foundry-pdf-importer-to-journal.zip"
+  "url": "https://github.com/frankenred-rpg/foundry-pdf-importer-to-journal",
+  "manifest": "https://raw.githubusercontent.com/frankenred-rpg/foundry-pdf-importer-to-journal/main/module.json",
+  "download": "https://github.com/frankenred-rpg/foundry-pdf-importer-to-journal/releases/latest/download/foundry-pdf-importer-to-journal.zip"
 }
