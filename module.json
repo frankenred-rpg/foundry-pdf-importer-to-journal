@@ -2,7 +2,7 @@
   "id": "pdf-to-journal",
   "title": "Foundry PDF Importer to Journal",
   "description": "Imports PDF files and converts them into Journal Entries, creating one page per section or chapter detected from the PDF outline or headings.",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "compatibility": {
     "minimum": "11",
     "verified": "13",
